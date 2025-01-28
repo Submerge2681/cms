@@ -9,7 +9,7 @@ on:
       - 'cms/site/content/events/**/*.md'
       - 'cms/site/content/howTos/**/*.md'
       - 'cms/site/content/petitions/**/*.md'
-      - 'cms/site/content/videos/**/*.md'  # Only trigger if markdown files are changed
+      - 'cms/site/content/videos/**/*.md'
 
 jobs:
   sync-markdown:
@@ -20,34 +20,25 @@ jobs:
       - name: Checkout source repo
         uses: actions/checkout@v3
 
-      # Copy markdown files to a temporary directory
-      - name: Copy markdown files
+      # Copy specific folders to a temporary directory
+      - name: Copy folders
         run: |
-          mkdir -p ./markdown_files/blurbs
-          mkdir -p ./markdown_files/events
-          mkdir -p ./markdown_files/howTos
-          mkdir -p ./markdown_files/petitions
-          mkdir -p ./markdown_files/videos
-
-          cp -r cms/site/content/blurbs/*.md ./markdown_files/blurbs/ || true
-          cp -r cms/site/content/events/*.md ./markdown_files/events/ || true
-          cp -r cms/site/content/howTos/*.md ./markdown_files/howTos/ || true
-          cp -r cms/site/content/petitions/*.md ./markdown_files/petitions/ || true
-          cp -r cms/site/content/videos/*.md ./markdown_files/videos/ || true
+          mkdir -p ./temp_content
+          cp -r cms/site/content/blurbs cms/site/content/events cms/site/content/howTos cms/site/content/petitions cms/site/content/videos ./temp_content/
 
       # Check out the target repository
       - name: Checkout target repo
         uses: actions/checkout@v3
         with:
-          repository: Submerge2681/11ty-template  # Target repository
+          repository: Submerge2681/cms  # Replace with your target repository
           token: ${{ secrets.CMS_TOKEN }}  # PAT with write access to the target repo
           path: target-repo  # Directory to clone the target repo into
 
-      # Copy markdown files to the target repository
-      - name: Copy files to target repo
+      # Copy folders to the target repository's /src directory
+      - name: Copy folders to target repo
         run: |
-          mkdir -p ./target-repo/src
-          cp -r ./markdown_files/* ./target-repo/src/
+          mkdir -p ./target-repo/src  # Ensure /src directory exists
+          cp -r ./temp_content/* ./target-repo/src/
 
       # Commit and push changes to the target repository
       - name: Commit and push changes
@@ -56,5 +47,6 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git diff --cached --quiet || git commit -m "Sync markdown files from source repo"
+          git status  # Debugging: Check which files are staged
+          git commit -m "Sync markdown files from source repo"
           git push
