@@ -30,7 +30,7 @@ jobs:
       - name: Checkout target repo
         uses: actions/checkout@v3
         with:
-          repository: Submerge2681/cms  # Replace with your target repository
+          repository: Submerge2681/11ty-template  # Replace with your target repository
           token: ${{ secrets.CMS_TOKEN }}  # PAT with write access to the target repo
           path: target-repo  # Directory to clone the target repo into
 
