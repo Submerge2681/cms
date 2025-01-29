@@ -49,5 +49,5 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git status  # Debugging: Check which files are staged
-          git commit -m "Sync markdown files from source repo"
+          git commit -m "CMS trigger"
           git push
