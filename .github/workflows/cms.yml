@@ -25,7 +25,7 @@ jobs:
       - name: Copy folders
         run: |
           mkdir -p ./temp_content
-          cp -r cms/site/content/blurbs cms/site/content/events cms/site/content/howTos cms/site/content/petitions cms/site/content/videos ./temp_content/
+          cp -r ./site/content/blurbs ./site/content/events ./site/content/howTos ./site/content/petitions ./site/content/videos ./temp_content/
 
       # Check out the target repository
       - name: Checkout target repo
