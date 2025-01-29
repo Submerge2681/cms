@@ -5,11 +5,12 @@ on:
     branches:
       - main  # Trigger on push to the main branch
     paths:
-      - 'cms/site/content/blurbs/**/*.md'
-      - 'cms/site/content/events/**/*.md'
-      - 'cms/site/content/howTos/**/*.md'
-      - 'cms/site/content/petitions/**/*.md'
-      - 'cms/site/content/videos/**/*.md'
+      - './site/content/blurbs/**/*.md'
+      - './site/content/events/**/*.md'
+      - './site/content/howTos/**/*.md'
+      - './site/content/petitions/**/*.md'
+      - './site/content/videos/**/*.md'
+  workflow_dispatch:
 
 jobs:
   sync-markdown:
