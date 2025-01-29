@@ -3,13 +3,20 @@ name: Sync Markdown Files
 on:
   push:
     branches:
-      - main  # Trigger on push to the main branch
+      - main
     paths:
-      - './site/content/blurbs/**/*.md'
-      - './site/content/events/**/*.md'
-      - './site/content/howTos/**/*.md'
-      - './site/content/petitions/**/*.md'
-      - './site/content/videos/**/*.md'
+      - 'site/content/blurbs/**/*.md'
+      - 'site/content/events/**/*.md'
+      - 'site/content/howTos/**/*.md'
+      - 'site/content/petitions/**/*.md'
+      - 'site/content/videos/**/*.md'
+  delete:
+    paths:
+      - 'site/content/blurbs/**/*.md'
+      - 'site/content/events/**/*.md'
+      - 'site/content/howTos/**/*.md'
+      - 'site/content/petitions/**/*.md'
+      - 'site/content/videos/**/*.md'
   workflow_dispatch:
 
 jobs:
@@ -48,6 +55,9 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git status  # Debugging: Check which files are staged
-          git commit -m "CMS trigger"
-          git push
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "CMS trigger"
+            git push
+          fi
