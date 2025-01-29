@@ -45,7 +45,13 @@ jobs:
       # Copy folders to the target repository
       - name: Copy folders to target repo
         run: |
-          mkdir -p ./target-repo/src  # Ensure /src directory exists
+          rm -rf ./target-repo/src/blurbs
+          rm -rf ./target-repo/src/events
+          rm -rf ./target-repo/src/howTos
+          rm -rf ./target-repo/src/petitions
+          rm -rf ./target-repo/src/videos
+          
+          mkdir -p ./target-repo/src
           cp -r ./temp_content/* ./target-repo/src/
 
       # Commit and push
